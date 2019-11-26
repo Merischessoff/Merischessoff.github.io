@@ -1,0 +1,114 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+		<title>Alfabeto em Libras</title>
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+	</head>
+	<script>
+			var i=0;
+			var letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W','X','Y','Z'];
+			var letraE=letras[i];
+			var letraR=letras[i];
+			
+			$(document).on('click', '#botaoOk', function(){
+				$("#botaoOk").click(function(){
+					$("#p1").hide();
+					$("#p2").show();
+					$("#p2").append("<h1 id='letraVezEnsino' style='padding-top: 150px;''>Letra "+letraE+"</h1>");
+					$('#letraVezEnsino').append('<br><img src="'+letraE+'.png" class="rounded" style="width:40%; height:auto;" ><br>');
+					$('#letraVezEnsino').append('<button id="botaoSiga" type="button" class="btn btn-primary">Ir em frente</button>');
+				});
+			});
+
+			$(document).on('click', '#botaoSiga', function(){
+				$("#p2").hide();
+				$("#p3").show();
+				$("#p3").append("<h1 id='letraVezResposta' style='padding-top: 150px;''>Abaixo marque o sinal que corresponde a Letra "+letraR+"</h1>");
+					var cont=0;
+					var cont1 = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+						for(j=0; j<5; j++){
+							if(cont==cont1){
+								$("#p3").append("<img id='sinal_"+i+"' class='btn' onclick='correta()' style='width:auto; height:250px; border: 2px solid orange; border-radius: 5px;' src='sinal_"+i+".png'>");
+							}else{
+								//var numerosRepete[];
+								var aux = Math.floor(Math.random() * (25 - 1 + 1)) + 1;
+								$("#p3").append("<img id='sinal_"+aux+"' class='btn' onclick='errada()' style='width:auto; height:250px; border: 2px solid orange; border-radius: 5px;' src='sinal_"+aux+".png'>");
+							}
+							cont++;
+						}
+			});
+
+		  function correta(){
+			  alert("Correto. Muito Bom!");
+		  	  $("#acerto").show();
+			  i++;
+			  letraE=letras[i];
+			  letraR=letras[i];
+
+			  document.getElementById("p1").innerHTML="";
+			  document.getElementById("p2").innerHTML="";
+			  document.getElementById("p3").innerHTML="";
+			  
+			  $("#p3").hide();
+			  $("#p1").show();
+			  if(i==25){
+				$("#p1").append('<h1 style="padding-top: 150px">Parabéns você concluiu o Alfabeto em Libras.</h1>');
+			  }else{
+				$("#p1").append('<h1 style="padding-top: 150px">Vamos aprender mais um sinal?</h1>');
+			    $("#p1").append('<button id="botaoOk" type="button" class="btn btn-primary">SIM</button>');
+			  }
+			  
+
+		  }
+		  
+		  function errada(){
+			  alert("Tente novamente.")
+		  }
+		  </script>
+
+	<body>
+		<div class="w3-top">
+	  		<div class="w3-row w3-padding w3-amber">
+	    		<div class="w3-col s3">
+					<img src="maoInfantilLego.png" alt="..." class="img-thumbnail">
+	    		</div>
+	  		</div>
+		</div>
+
+		<div id="principal">
+
+			<div id="p1" class="text-center" style="display: none;"></div>
+			
+			<div id="p2" class="text-center" style="display: none;"></div>
+
+			<div id="p3" class="text-center" style="display: none;"></div>
+		</div>
+				
+		<div class="w3-bottom">
+			<div class="w3-row w3-padding w3-amber">
+			  <div class="w3-col s3">
+			  </div>
+			</div>
+		  </div>
+		  
+			<style>
+				body{
+					  height: 100%;
+					  font-family: "Inconsolata", sans-serif;
+				}
+			</style>
+	</body>
+	
+		  <script>
+		  if(i==0){
+			$("#p1").show();
+		  	$("#p1").append('<h1 style="padding-top: 150px">Vamos aprender o alfabeto em Libras?</h1>');
+		  	$("#p1").append('<button id="botaoOk" type="button" class="btn btn-primary">SIM</button>');
+		  }
+		  </script>
+</html>
