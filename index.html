@@ -4,72 +4,94 @@
 		<title>Alfabeto em Libras</title>
 		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
 	</head>
+	<style>
+		body{
+			height: 100%;
+			font-family: "Inconsolata", sans-serif;
+		}
+	</style>
+
 	<script>
-			var i=0;
-			var letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W','X','Y','Z'];
-			var letraE=letras[i];
-			var letraR=letras[i];
-			
-			$(document).on('click', '#botaoOk', function(){
-				$("#botaoOk").click(function(){
-					$("#p1").hide();
-					$("#p2").show();
-					$("#p2").append("<h1 id='letraVezEnsino' style='padding-top: 150px;''>Letra "+letraE+"</h1>");
-					$('#letraVezEnsino').append('<br><img src="'+letraE+'.png" class="rounded" style="width:40%; height:auto;" ><br>');
-					$('#letraVezEnsino').append('<button id="botaoSiga" type="button" class="btn btn-primary">Ir em frente</button>');
-				});
+		var i=0;
+		var letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W','X','Y','Z'];
+		var letraE=letras[i];
+		var letraR=letras[i];
+		var acertos=0;	
+		$(document).on('click', '#botaoOk', function(){
+			$("#botaoOk").click(function(){
+				$("#p1").hide();
+				$("#p2").show();
+				$("#p2").append("<h1 id='letraVezEnsino' style='padding-top: 150px;''>Letra "+letraE+"</h1>");
+				$('#letraVezEnsino').append('<br><img src="'+letraE+'.png" class="rounded" style="width:auto; height:300px;" ><br>');
+				$('#letraVezEnsino').append('<button id="botaoSiga" type="button" class="btn btn-primary">Ir em frente</button>');
 			});
+		});
 
-			$(document).on('click', '#botaoSiga', function(){
-				$("#p2").hide();
-				$("#p3").show();
-				$("#p3").append("<h1 id='letraVezResposta' style='padding-top: 150px;''>Abaixo marque o sinal que corresponde a Letra "+letraR+"</h1>");
-					var cont=0;
-					var cont1 = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-						for(j=0; j<5; j++){
-							if(cont==cont1){
-								$("#p3").append("<img id='sinal_"+i+"' class='btn' onclick='correta()' style='width:auto; height:250px; border: 2px solid orange; border-radius: 5px;' src='sinal_"+i+".png'>");
-							}else{
-								//var numerosRepete[];
-								var aux = Math.floor(Math.random() * (25 - 1 + 1)) + 1;
+		$(document).on('click', '#botaoSiga', function(){
+			$("#p2").hide();
+			$("#p3").show();
+			$("#p3").append("<h1 id='letraVezResposta' style='padding-top: 150px;''>Abaixo marque o sinal que corresponde a Letra "+letraR+"</h1>");
+				var cont=0;//contador do laço para auxiliar na posição da letra correta
+				var cont1 = Math.floor(Math.random() * (3 - 1 + 1)) + 1;//Gera posição aleatória 
+				var arrayLetras = [];//array onde as imagens das letras erradas serão guardadas
+				var correta = i; //variavel recebe a letra correta de acordo com o fluxo
+				var repetidasErradas=0;//variavel que verifica condição necessáriapara adicionar uma letra errada
+					for(j=0; j<4; j++){
+						if(cont==cont1){//Quando posição aleatória for igual ao contador ele adiciona a resposta correta
+							$("#p3").append("<img id='sinal_"+i+"' class='btn' onclick='correta()' style='width:auto; height:250px; border: 2px solid orange; border-radius: 5px;' src='sinal_"+i+".png'>");
+							arrayLetras.push(i);//insere letra no array para verificar
+						}else{
+							var aux = Math.floor(Math.random() * (25 - 1 + 1)) + 1;//gera letra aleatória para 
+							//var tamanhoArray = arrayLetras.length;
+							//for(k=0; k<tamanhoArray; k++){
+							//	if (arrayLetras[k]==aux){
+							//		repetidasErradas = 1;
+							//	}
+							//}
+							if(aux!=correta & repetidasErradas!=1){// controla se a letra a ser inserida é igual a correta ou é repetida
 								$("#p3").append("<img id='sinal_"+aux+"' class='btn' onclick='errada()' style='width:auto; height:250px; border: 2px solid orange; border-radius: 5px;' src='sinal_"+aux+".png'>");
+								arrayLetras.push(aux);
+							}else{//se for diminui um numero do contador para sempre vir na tela 5 imagens
+								j--;
 							}
-							cont++;
 						}
-			});
+						cont++;
+					}						
+		});
 
-		  function correta(){
-			  alert("Correto. Muito Bom!");
-		  	  $("#acerto").show();
-			  i++;
-			  letraE=letras[i];
-			  letraR=letras[i];
+		function correta(){
+			acertos++;
+			i++;
+			letraE=letras[i];
+			letraR=letras[i];
 
-			  document.getElementById("p1").innerHTML="";
-			  document.getElementById("p2").innerHTML="";
-			  document.getElementById("p3").innerHTML="";
+			document.getElementById("p1").innerHTML="";
+			document.getElementById("p2").innerHTML="";
+			document.getElementById("p3").innerHTML="";
 			  
-			  $("#p3").hide();
-			  $("#p1").show();
-			  if(i==25){
-				$("#p1").append('<h1 style="padding-top: 150px">Parabéns você concluiu o Alfabeto em Libras.</h1>');
-			  }else{
-				$("#p1").append('<h1 style="padding-top: 150px">Vamos aprender mais um sinal?</h1>');
+			$("#p3").hide();
+			$("#p1").show();
+			  
+			if(i==25){
+				$("#p1").append('<h1 style="padding-top: 150px;">Parabéns você concluiu o Alfabeto em Libras.</h1>');
+				$("#p1").append('<button onclick="window.location();" type="button" class="btn btn-primary">Começar Novamente</button>');
+				$("#p4").show();
+			}else{
+				$("#p1").append('<h1 style="padding-top: 150px;">Parabéns você acertou. Vamos aprender mais um sinal?</h1>');
 			    $("#p1").append('<button id="botaoOk" type="button" class="btn btn-primary">SIM</button>');
-			  }
-			  
-
-		  }
+			}
+		}
 		  
-		  function errada(){
-			  alert("Tente novamente.")
-		  }
-		  </script>
+		function errada(){
+			acertos--;
+			$("#p3").append('<div id="errado" style="margin: 50px;" class="alert alert-danger"><strong>Tente mais uma vez!</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+		}
+
+	</script>
 
 	<body>
 		<div class="w3-top">
@@ -80,35 +102,31 @@
 	  		</div>
 		</div>
 
-		<div id="principal">
-
+		<div id="principal" class="text-center" style="margin: auto; width: 80%; height: 80%;">
 			<div id="p1" class="text-center" style="display: none;"></div>
 			
 			<div id="p2" class="text-center" style="display: none;"></div>
 
 			<div id="p3" class="text-center" style="display: none;"></div>
+
+			<div id="p4" class="text-center" style="padding-top: 50px; display: none;">
+			</div>
 		</div>
-				
+		
 		<div class="w3-bottom">
 			<div class="w3-row w3-padding w3-amber">
 			  <div class="w3-col s3">
+					<button type="button" onclick="window.close();" class="btn btn-danger">Sair</button>
 			  </div>
 			</div>
 		  </div>
-		  
-			<style>
-				body{
-					  height: 100%;
-					  font-family: "Inconsolata", sans-serif;
-				}
-			</style>
 	</body>
 	
-		  <script>
-		  if(i==0){
+	<script>
+		if(i==0){
 			$("#p1").show();
-		  	$("#p1").append('<h1 style="padding-top: 150px">Vamos aprender o alfabeto em Libras?</h1>');
-		  	$("#p1").append('<button id="botaoOk" type="button" class="btn btn-primary">SIM</button>');
-		  }
-		  </script>
+			$("#p1").append('<h1 style="padding-top: 150px">Vamos aprender o alfabeto em Libras?</h1>');
+			$("#p1").append('<button id="botaoOk" type="button" class="btn btn-primary">SIM</button>');
+		}
+	</script>
 </html>
