@@ -20,15 +20,40 @@
 		var letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W','X','Y','Z'];
 		var letraE=letras[i];
 		var letraR=letras[i];
-		var acertos=0;	
+		var acertos=0;
+		var acertosConsecutivos=0;
+
+		function desenhaGrafico(){
+			window.onload = function () {
+
+			var options = {
+				title: {
+					text: "Desempenho Geral"              
+				},
+				data: [              
+				{
+					type: "column",
+					dataPoints: [
+						{ label: "Acertos Totais",  y: acertos  },
+						{ label: "Acertos Consecutivos", y: acertosConsecutivos  },
+					]
+				}
+				]
+			};
+
+			$("#graficoAcertos").CanvasJSChart(options);
+			}
+		}
+		$(document).on('click', '#botaoNovamente', function(){
+				document.location.reload(true);
+		});
+
 		$(document).on('click', '#botaoOk', function(){
-			$("#botaoOk").click(function(){
 				$("#p1").hide();
 				$("#p2").show();
 				$("#p2").append("<h1 id='letraVezEnsino' style='padding-top: 150px;''>Letra "+letraE+"</h1>");
 				$('#letraVezEnsino').append('<br><img src="'+letraE+'.png" class="rounded" style="width:auto; height:300px;" ><br>');
 				$('#letraVezEnsino').append('<button id="botaoSiga" type="button" class="btn btn-primary">Ir em frente</button>');
-			});
 		});
 
 		$(document).on('click', '#botaoSiga', function(){
@@ -65,6 +90,7 @@
 
 		function correta(){
 			acertos++;
+			acertosConsecutivos++;
 			i++;
 			letraE=letras[i];
 			letraR=letras[i];
@@ -78,8 +104,9 @@
 			  
 			if(i==25){
 				$("#p1").append('<h1 style="padding-top: 150px;">Parabéns você concluiu o Alfabeto em Libras.</h1>');
-				$("#p1").append('<button onclick="window.location();" type="button" class="btn btn-primary">Começar Novamente</button>');
-				$("#p4").show();
+				$("#p1").append('<button type="button" id="botaoNovamente" class="btn btn-primary">Começar Novamente</button>');
+				$("#graficoAcertos").show();
+				desenhaGrafico();
 			}else{
 				$("#p1").append('<h1 style="padding-top: 150px;">Parabéns você acertou. Vamos aprender mais um sinal?</h1>');
 			    $("#p1").append('<button id="botaoOk" type="button" class="btn btn-primary">SIM</button>');
@@ -87,10 +114,11 @@
 		}
 		  
 		function errada(){
-			acertos--;
+			acertosConsecutivos=0;
 			$("#p3").append('<div id="errado" style="margin: 50px;" class="alert alert-danger"><strong>Tente mais uma vez!</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
 		}
 
+		
 	</script>
 
 	<body>
@@ -109,8 +137,8 @@
 
 			<div id="p3" class="text-center" style="display: none;"></div>
 
-			<div id="p4" class="text-center" style="padding-top: 50px; display: none;">
-			</div>
+			<div id="graficoAcertos" style="height: 300px; width: 100%; display: none; padding-top: 100px; align-items: center;"></div>			
+			
 		</div>
 		
 		<div class="w3-bottom">
@@ -121,7 +149,8 @@
 			</div>
 		  </div>
 	</body>
-	
+	<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 	<script>
 		if(i==0){
 			$("#p1").show();
