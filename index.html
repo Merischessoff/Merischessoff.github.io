@@ -23,27 +23,6 @@
 		var acertos=0;
 		var acertosConsecutivos=0;
 
-		function desenhaGrafico(){
-			window.onload = function () {
-
-			var options = {
-				title: {
-					text: "Desempenho Geral"              
-				},
-				data: [              
-				{
-					type: "column",
-					dataPoints: [
-						{ label: "Acertos Totais",  y: acertos  },
-						{ label: "Acertos Consecutivos", y: acertosConsecutivos  },
-					]
-				}
-				]
-			};
-
-			$("#graficoAcertos").CanvasJSChart(options);
-			}
-		}
 		$(document).on('click', '#botaoNovamente', function(){
 				document.location.reload(true);
 		});
@@ -80,7 +59,7 @@
 							if(aux!=correta & repetidasErradas!=1){// controla se a letra a ser inserida é igual a correta ou é repetida
 								$("#p3").append("<img id='sinal_"+aux+"' class='btn' onclick='errada()' style='width:auto; height:250px; border: 2px solid orange; border-radius: 5px;' src='sinal_"+aux+".png'>");
 								arrayLetras.push(aux);
-							}else{//se for diminui um numero do contador para sempre vir na tela 5 imagens
+							}else{//se for diminui um numero do contador para sempre vir na tela 4 imagens
 								j--;
 							}
 						}
@@ -105,8 +84,6 @@
 			if(i==25){
 				$("#p1").append('<h1 style="padding-top: 150px;">Parabéns você concluiu o Alfabeto em Libras.</h1>');
 				$("#p1").append('<button type="button" id="botaoNovamente" class="btn btn-primary">Começar Novamente</button>');
-				$("#graficoAcertos").show();
-				desenhaGrafico();
 			}else{
 				$("#p1").append('<h1 style="padding-top: 150px;">Parabéns você acertou. Vamos aprender mais um sinal?</h1>');
 			    $("#p1").append('<button id="botaoOk" type="button" class="btn btn-primary">SIM</button>');
@@ -136,8 +113,6 @@
 			<div id="p2" class="text-center" style="display: none;"></div>
 
 			<div id="p3" class="text-center" style="display: none;"></div>
-
-			<div id="graficoAcertos" style="height: 300px; width: 100%; display: none; padding-top: 100px; align-items: center;"></div>			
 			
 		</div>
 		
